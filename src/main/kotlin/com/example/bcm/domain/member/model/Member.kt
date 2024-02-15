@@ -14,9 +14,12 @@ class Member(
     var email: String,
 
     @Column(name="nickname", nullable= false)
-    var nickname : String
-){
+    var nickname : String,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
+
+){
+
 }

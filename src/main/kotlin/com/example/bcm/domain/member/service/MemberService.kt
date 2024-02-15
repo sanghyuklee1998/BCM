@@ -11,7 +11,7 @@ interface MemberService {
 
     fun findAll(): List<MemberResponse>
 
-    fun updateMember(updateMemberRequest: UpdateMemberRequest): MemberResponse
+    fun updateMember(id:Long ,updateMemberRequest: UpdateMemberRequest): MemberResponse
 
     fun deleteMember(id: Long)
 }

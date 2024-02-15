@@ -2,6 +2,8 @@ package com.example.bcm.domain.member.controller
 
 import com.example.bcm.domain.member.dto.CreateMemberRequest
 import com.example.bcm.domain.member.dto.MemberResponse
+import com.example.bcm.domain.member.dto.UpdateMemberRequest
+import com.example.bcm.domain.member.model.Member
 import com.example.bcm.domain.member.service.MemberService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,40 +25,51 @@ class MemberController(
     val memberService: MemberService
 ) {
 
-    @PostMapping("/signup")
+    @PostMapping
     fun createMember(
         @RequestBody createMemberRequest: CreateMemberRequest
     ): ResponseEntity<MemberResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(MemberService.createMember(createMemberRequest))
+            .body(memberService.createMember(createMemberRequest))
     }
 
 
     @GetMapping("/members")
-    fun findMember(@PathVariable memberId: Long): ResponseEntity<MemberResponse> {
+    fun findMember(
+        @PathVariable memberId: Long
+    ): ResponseEntity<MemberResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(memberService.findById(memberId))
     }
 
-    @GetMapping("/{memberId}")
-    fun findAllMember()
-        @PathVariable
+    @GetMapping
+    fun findAllMember(): ResponseEntity<List<MemberResponse>>{
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(memberService.findAll())
+    }
+
 
 
     @PutMapping("/{memberId}")
     fun updateMember(
         @PathVariable memberId: Long,
-    ){
-
+        @RequestBody updateMemberRequest: UpdateMemberRequest
+    ): ResponseEntity<MemberResponse>{
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(memberService.updateMember(memberId,updateMemberRequest))
     }
 
     @DeleteMapping("/{mamberId}")
     fun deleteMemeber(
-
-    ){
-
+        @PathVariable memberId: Long
+    ): ResponseEntity<Unit>{
+        return ResponseEntity
+            .status(HttpStatus.NO_CONTENT)
+            .build()
     }
 
 }
