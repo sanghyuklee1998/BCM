@@ -1,6 +1,10 @@
 package com.example.bcm.domain.member.controller
 
+import com.example.bcm.domain.member.dto.CreateMemberRequest
+import com.example.bcm.domain.member.dto.MemberResponse
 import com.example.bcm.domain.member.service.MemberService
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,19 +23,40 @@ class MemberController(
     val memberService: MemberService
 ) {
 
-    @GetMapping
-    fun findAllMember(
+    @PostMapping("/signup")
+    fun createMember(
+        @RequestBody createMemberRequest: CreateMemberRequest
+    ): ResponseEntity<MemberResponse> {
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(MemberService.createMember(createMemberRequest))
+    }
 
-    )
+
+    @GetMapping("/members")
+    fun findMember(@PathVariable memberId: Long): ResponseEntity<MemberResponse> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(memberService.findById(memberId))
+    }
 
     @GetMapping("/{memberId}")
-    fun findMember(
+    fun findAllMember()
         @PathVariable
-    )
+
 
     @PutMapping("/{memberId}")
     fun updateMember(
         @PathVariable memberId: Long,
-    )
+    ){
+
+    }
+
+    @DeleteMapping("/{mamberId}")
+    fun deleteMemeber(
+
+    ){
+
+    }
 
 }
