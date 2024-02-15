@@ -10,18 +10,20 @@ import java.time.ZonedDateTime
 
 
 @Entity
-class Comment (
+data class Comment (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
+
+
     @Column(name = "contnent")
     var content: String,
 
-    @Column
+    @Column(name = "nickname")
     var nickname: String,
 
-    @Column
+    @Column(name = "createdAt")
     @CreatedDate
     var createdAt: ZonedDateTime
 

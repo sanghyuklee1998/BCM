@@ -1,17 +1,22 @@
 package com.example.bcm.domain.comment.dto
 
 import com.example.bcm.domain.comment.model.Comment
+import java.time.ZonedDateTime
 
 class CommentResponse (
     var id: Long?,
-    var content: String
+    var content: String,
+    var nickname: String,
+    var createdAt: ZonedDateTime
 ) {
     companion object {
         fun toCommentResponse(comment: Comment
         ): CommentResponse {
             return CommentResponse(
                 id = comment.id,
-                content = comment.content
+                content = comment.content,
+                nickname = comment.nickname,
+                createdAt = comment.createdAt
             )
         }
     }
