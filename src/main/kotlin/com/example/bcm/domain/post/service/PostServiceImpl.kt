@@ -9,7 +9,7 @@ import com.example.bcm.domain.post.model.toResponse
 import com.example.bcm.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.time.ZonedDateTime
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class PostServiceImpl(
@@ -28,16 +28,21 @@ class PostServiceImpl(
         return post.toResponse()
     }
 
+    private fun plusViews(post: Post) {
+        post.views++
+    }
+
+    @Transactional
     override fun createPost(request: CreatePostRequest): PostResponse {
         return postRepository.save(
                 Post(
                         title= request.title,
-                        content = request.content,
-                        createdAt = ZonedDateTime.now()
+                        content = request.content
                 )
         ).toResponse()
     }
 
+    @Transactional
     override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
         val post = postRepository.findByIdOrNull(postId)?: throw ModelNotFoundException("Post", postId)
         post.title = request.title
@@ -45,6 +50,7 @@ class PostServiceImpl(
         return postRepository.save(post).toResponse()
     }
 
+    @Transactional
     override fun deletePost(postId: Long) {
         val post= postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         postRepository.delete(post)
