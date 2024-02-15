@@ -36,6 +36,17 @@ configurations {
 
 
 
+noArg {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
+}
+allOpen {
+    annotation("jakarta.persistence.Entity")
+    annotation("jakarta.persistence.MappedSuperclass")
+    annotation("jakarta.persistence.Embeddable")
+}
+
 repositories {
     mavenCentral()
 }
@@ -54,8 +65,6 @@ dependencies {
 
     //swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-
-
 
 
 }
