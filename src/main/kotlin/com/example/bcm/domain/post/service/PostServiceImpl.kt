@@ -20,8 +20,11 @@ class PostServiceImpl(
         return postRepository.findAll().map{it.toResponse()}
     }
 
+
+    @Transactional
     override fun getPostById(postId: Long): PostResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
+        plusViews(post)
         return post.toResponse()
     }
 
