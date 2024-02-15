@@ -9,6 +9,7 @@ import com.example.bcm.domain.post.model.toResponse
 import com.example.bcm.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import java.time.ZonedDateTime
 
 @Service
 class PostServiceImpl(
@@ -29,7 +30,7 @@ class PostServiceImpl(
                 Post(
                         title= request.title,
                         content = request.content,
-                        nickname = //member 연결해서 받아와야함,
+                        createdAt = ZonedDateTime.now()
                 )
         ).toResponse()
     }
