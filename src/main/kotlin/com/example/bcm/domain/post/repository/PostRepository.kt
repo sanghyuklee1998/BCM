@@ -11,6 +11,6 @@ interface PostRepository: JpaRepository<Post, Long> {
     fun findByTitleLike(title: String): List<Post>
     fun findByContentLike(content: String): List<Post>
 
-    fun findAllByOrderByIdDesc(pageable: Pageable): Page<Post>
+    fun findAllByOrderByCreatedAtDesc(pageable: Pageable): Page<Post>
 
 }
