@@ -6,6 +6,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import org.springframework.data.annotation.CreatedDate
+import java.time.LocalDateTime
 import java.time.ZonedDateTime
 
 
@@ -15,8 +16,6 @@ data class Comment (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-
-
     @Column(name = "contnent")
     var content: String,
 
@@ -25,6 +24,6 @@ data class Comment (
 
     @Column(name = "createdAt")
     @CreatedDate
-    var createdAt: ZonedDateTime
+    var createdAt: LocalDateTime = LocalDateTime.now()
 
 )
