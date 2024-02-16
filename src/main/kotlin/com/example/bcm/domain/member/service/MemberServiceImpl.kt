@@ -29,17 +29,18 @@ class MemberServiceImpl(
         return memberRepository.findAll().map{MemberResponse.from(it)}
     }
 
-//    override fun updateMember(id: Long,updateMemberRequest: UpdateMemberRequest): MemberResponse {
-//        val saveMember = memberRepository.findByIdOrNull(id) ?: throw ModelNotFoundException("Member",id)
-//            saveMember.nickname = updateMemberRequest.nickname
-//
-//        return MemberResponse.from(memberRepository.save(saveMember))
-//    }
     override fun updateMember(id: Long,updateMemberRequest: UpdateMemberRequest): MemberResponse {
-        val saveMember = memberRepository.save(updateMemberRequest.to())
+        val saveMember = memberRepository.findByIdOrNull(id) ?: throw ModelNotFoundException("Member",id)
+            saveMember.nickname = updateMemberRequest.nickname
 
-        return MemberResponse.from(saveMember)
+        return MemberResponse.from(memberRepository.save(saveMember))
     }
+
+//    override fun updateMember(id: Long,updateMemberRequest: UpdateMemberRequest): MemberResponse {
+//        val saveMember = memberRepository.save(updateMemberRequest.to())
+//
+//        return MemberResponse.from(saveMember)
+//    }
 
     override fun deleteMember(id: Long) {
         memberRepository.deleteById(id)

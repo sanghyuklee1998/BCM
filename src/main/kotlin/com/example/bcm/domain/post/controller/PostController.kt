@@ -54,7 +54,7 @@ class PostController(
             .build()
     }
 
-    @GetMapping("/test")
+    @GetMapping("/search/title")
     fun getPostByTitle(
         @RequestParam keyword: String
     ): ResponseEntity<List<PostResponse>> {
@@ -64,7 +64,7 @@ class PostController(
             .body(postService.getPostByTitle(keyword))
     }
 
-    @GetMapping("/test2")
+    @GetMapping("/search/content")
     fun getPostByContent(
         @RequestParam keyword: String
     ): ResponseEntity<List<PostResponse>> {
