@@ -7,6 +7,8 @@ import com.example.bcm.domain.post.dto.UpdatePostRequest
 import com.example.bcm.domain.post.model.Post
 import com.example.bcm.domain.post.model.toResponse
 import com.example.bcm.domain.post.repository.PostRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -67,6 +69,8 @@ class PostServiceImpl(
         return post.map { it.toResponse() }
     }
 
-
-
+    override fun getPostByPage(pageNumber: Int, pageSize: Int): Page<PostResponse> {
+        val page = postRepository.findAllByOrderByIdDesc(PageRequest.of(pageNumber, pageSize))
+        return page.map { it.toResponse() }
+    }
 }

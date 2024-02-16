@@ -4,6 +4,7 @@ import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
 import com.example.bcm.domain.post.service.PostService
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -76,8 +77,12 @@ class PostController (
             .body(postService.getPostByContent(keyword))
     }
 
-
-
-
-    
+    @GetMapping("/page")
+    fun getPostByPage(
+        @RequestParam pageNumber: Int,
+        @RequestParam pageSize: Int): ResponseEntity<Page<PostResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(postService.getPostByPage(pageNumber, pageSize))
+    }
 }
