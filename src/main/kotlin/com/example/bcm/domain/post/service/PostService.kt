@@ -3,7 +3,7 @@ package com.example.bcm.domain.post.service
 import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
-import com.example.bcm.domain.post.model.Post
+import org.springframework.data.domain.Page
 
 interface PostService {
     fun getPostById(postId:Long): PostResponse
@@ -13,4 +13,6 @@ interface PostService {
     fun deletePost(postId: Long)
     fun getPostByTitle (keyword: String): List<PostResponse>
     fun getPostByContent (keyword: String): List<PostResponse>
+
+    fun getPostByPage (pageNumber: Int, pageSize: Int): Page<PostResponse>
 }
