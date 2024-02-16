@@ -70,7 +70,7 @@ class PostServiceImpl(
     }
 
     override fun getPostByPage(pageNumber: Int, pageSize: Int): Page<PostResponse> {
-        val page = postRepository.findAllByOrderByIdDesc(PageRequest.of(pageNumber, pageSize))
+        val page = postRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(pageNumber, pageSize))
         return page.map { it.toResponse() }
     }
 }
