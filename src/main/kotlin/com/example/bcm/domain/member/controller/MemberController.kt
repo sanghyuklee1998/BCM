@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
+@RequestMapping("/api/v1/members")
 class MemberController(
     val memberService: MemberService
 ) {
@@ -35,7 +36,7 @@ class MemberController(
     }
 
 
-    @GetMapping("/members")
+    @GetMapping("/{memberId}")
     fun findMember(
         @PathVariable memberId: Long
     ): ResponseEntity<MemberResponse> {
@@ -63,7 +64,7 @@ class MemberController(
             .body(memberService.updateMember(memberId,updateMemberRequest))
     }
 
-    @DeleteMapping("/{mamberId}")
+    @DeleteMapping("/{memberId}")
     fun deleteMemeber(
         @PathVariable memberId: Long
     ): ResponseEntity<Unit>{

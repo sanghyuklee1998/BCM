@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/api/v1/posts")
 class PostController (
         private val postService: PostService
 ){
