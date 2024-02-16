@@ -10,6 +10,7 @@ import com.example.bcm.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -29,7 +30,7 @@ class CommentServiceImpl (
         val comment = Comment(
             content = createCommentRequest.content,
             nickname = "닉네임",
-            createdAt = ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
+            createdAt = LocalDateTime.now()
         )
 
         val result = commentRepository.save(comment)
