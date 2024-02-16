@@ -10,7 +10,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(name="member")
 class Member(
-    @Column(name ="email", nullable = false)
+    @Column(name ="email")
     var email: String,
 
     @Column(name="nickname", nullable= false)
@@ -21,5 +21,6 @@ class Member(
     var id: Long? = null
 
 ){
+    constructor(nickname: String):this("",nickname)
 
 }
