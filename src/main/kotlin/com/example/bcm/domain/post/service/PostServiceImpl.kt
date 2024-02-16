@@ -55,4 +55,18 @@ class PostServiceImpl(
         val post= postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         postRepository.delete(post)
     }
+
+
+    override fun getPostByTitle (keyword: String): List<PostResponse> {
+        val post = postRepository.findByTitleLike("%"+keyword+"%")
+        return post.map { it.toResponse() }
+    }
+
+    override fun getPostByContent(keyword: String): List<PostResponse> {
+        val post = postRepository.findByContentLike("%"+keyword+"%")
+        return post.map { it.toResponse() }
+    }
+
+
+
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -56,6 +57,26 @@ class PostController (
                 .status(HttpStatus.NO_CONTENT)
                 .build()
     }
+
+    @GetMapping("/test")
+    fun getPostByTitle(
+        @RequestParam keyword: String): ResponseEntity<List<PostResponse>>{
+        postService.getPostByTitle(keyword)
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(postService.getPostByTitle(keyword))
+    }
+
+    @GetMapping("/test2")
+    fun getPostByContent(
+        @RequestParam keyword: String): ResponseEntity<List<PostResponse>> {
+        postService.getPostByContent(keyword)
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(postService.getPostByContent(keyword))
+    }
+
+
 
 
     
