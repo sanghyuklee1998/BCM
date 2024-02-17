@@ -56,9 +56,9 @@ class PostController(
 
     @GetMapping("/search/title")
     fun getPostByTitle(
-        @RequestParam keyword: String
-    ): ResponseEntity<List<PostResponse>> {
-        postService.getPostByTitle(keyword)
+        @RequestParam keyword: String): ResponseEntity<List<PostResponse>>{
+//        줄 중복으로 키워드 count가 2씩 되어서 삭제했습니다
+//         postService.getPostByTitle(keyword)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(postService.getPostByTitle(keyword))
@@ -66,9 +66,9 @@ class PostController(
 
     @GetMapping("/search/content")
     fun getPostByContent(
-        @RequestParam keyword: String
-    ): ResponseEntity<List<PostResponse>> {
-        postService.getPostByContent(keyword)
+        @RequestParam keyword: String): ResponseEntity<List<PostResponse>> {
+//        중복으로 count 2 되어 삭제
+//         postService.getPostByContent(keyword)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(postService.getPostByContent(keyword))
