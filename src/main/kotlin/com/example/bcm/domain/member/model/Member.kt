@@ -21,5 +21,5 @@ class Member(
     var id: Long? = null
 
 ){
-
+//    constructor(nickname: String): this("",nickname)
 }
