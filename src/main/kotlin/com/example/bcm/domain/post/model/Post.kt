@@ -7,6 +7,7 @@ import java.time.LocalDateTime
 
 
 @Entity
+@Table(name = "post")
 class Post(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
