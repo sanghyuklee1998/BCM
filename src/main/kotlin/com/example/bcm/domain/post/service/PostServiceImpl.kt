@@ -11,6 +11,8 @@ import com.example.bcm.domain.searchkeyword.model.SearchKeyword
 import com.example.bcm.domain.searchkeyword.repository.SearchKeywordRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -122,5 +124,14 @@ class PostServiceImpl(
         val page = postRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(pageNumber, pageSize))
         return page.map { it.toResponse() }
     }
+
+    @Transactional(readOnly = true)
+    override fun getTopSearchKeywords(): List<SearchKeyword> {
+        val pageable: Pageable = PageRequest.of(0,3, Sort.by(Sort.Direction.DESC, "searchCount"))
+        return searchKeywordRepository.findAll(pageable).content
+    }
+
+
+
 
 }
