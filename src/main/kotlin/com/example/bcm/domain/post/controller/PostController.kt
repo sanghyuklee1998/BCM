@@ -76,6 +76,17 @@ class PostController(
                 .body(postService.getPostByContent(keyword, pageNumber -1, pageSize))
     }
 
+    @GetMapping("/search")
+    fun getPostByTitleOrContent(
+        @RequestParam keyword: String,
+        @RequestParam(defaultValue = "1") pageNumber: Int,
+        @RequestParam(defaultValue = "10") pageSize: Int
+    ): ResponseEntity<Page<PostResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(postService.getPostByTitleOrContent(keyword, pageNumber -1, pageSize))
+    }
+
     @GetMapping("/page")
     fun getPostByPage(
             @RequestParam(defaultValue = "1") pageNumber: Int,

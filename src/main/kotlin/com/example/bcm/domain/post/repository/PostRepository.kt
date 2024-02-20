@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 interface PostRepository: JpaRepository<Post, Long> {
     fun findByTitleLike(title: String, pageable: Pageable): Page<Post>
     fun findByContentLike(content: String, pageable: Pageable): Page<Post>
-
+    fun findByTitleContainsOrContentContains(title: String, content: String, pageable:Pageable): Page<Post>
     fun findAllByOrderByCreatedAtDesc(pageable: Pageable): Page<Post>
 
 }

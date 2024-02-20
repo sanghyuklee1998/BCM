@@ -14,4 +14,5 @@ interface PostService {
     fun getPostByTitle (keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse>
     fun getPostByContent (keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse>
     fun getPostByPage (pageNumber: Int, pageSize: Int): Page<PostResponse>
+    fun getPostByTitleOrContent (keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse>
 }
