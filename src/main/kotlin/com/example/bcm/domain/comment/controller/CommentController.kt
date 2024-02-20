@@ -40,7 +40,6 @@ class CommentController (
     }
 
     @DeleteMapping(" /{commentId}")
-
     fun deleteComment(
         @PathVariable commentId: Long
     ): ResponseEntity<String> {

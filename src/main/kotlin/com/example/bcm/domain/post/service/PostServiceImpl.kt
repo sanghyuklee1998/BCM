@@ -61,8 +61,9 @@ class PostServiceImpl(
         postRepository.delete(post)
     }
 
-    override fun getPostByTitle(keyword: String): List<PostResponse> {
-        val post = postRepository.findByTitleLike("%" + keyword + "%")
+    @Transactional
+    override fun getPostByTitle(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
+        val post = postRepository.findByTitleLike("%$keyword%", PageRequest.of(pageNumber, pageSize))
 
         //데이터베이스에서 해당 키워드 조회
         val searchKeyword = searchKeywordRepository.findByKeyword(keyword)
@@ -77,12 +78,12 @@ class PostServiceImpl(
             searchKeyword.searchCount++
             searchKeywordRepository.save(searchKeyword)
         }
-
         return post.map { it.toResponse() }
     }
 
-    override fun getPostByContent(keyword: String): List<PostResponse> {
-        val post = postRepository.findByContentLike("%" + keyword + "%")
+    @Transactional
+    override fun getPostByContent(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
+        val post = postRepository.findByContentLike("%$keyword%", PageRequest.of(pageNumber, pageSize))
         val searchKeyword = searchKeywordRepository.findByKeyword(keyword)
         if (searchKeyword == null) {
             val newKeyword = SearchKeyword(keyword = keyword, searchCount = 1)

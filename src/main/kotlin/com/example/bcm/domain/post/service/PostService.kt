@@ -11,8 +11,7 @@ interface PostService {
     fun createPost(request: CreatePostRequest): PostResponse
     fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse
     fun deletePost(postId: Long)
-    fun getPostByTitle (keyword: String): List<PostResponse>
-    fun getPostByContent (keyword: String): List<PostResponse>
-
+    fun getPostByTitle (keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse>
+    fun getPostByContent (keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse>
     fun getPostByPage (pageNumber: Int, pageSize: Int): Page<PostResponse>
 }
