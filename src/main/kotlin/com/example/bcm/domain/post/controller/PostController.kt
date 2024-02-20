@@ -4,6 +4,7 @@ import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
 import com.example.bcm.domain.post.service.PostService
+import com.example.bcm.domain.searchkeyword.model.SearchKeyword
 import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -96,4 +97,12 @@ class PostController(
                 .status(HttpStatus.OK)
                 .body(postService.getPostByPage(pageNumber - 1, pageSize))
     }
+
+    @GetMapping("/top-search-keywords")
+    fun getTopSearchKeywords(): ResponseEntity<List<SearchKeyword>> {
+        val topKeyword = postService.getTopSearchKeywords()
+        return ResponseEntity.ok(topKeyword)
+    }
+
+
 }
