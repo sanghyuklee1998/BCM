@@ -5,6 +5,8 @@ import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
 import com.example.bcm.domain.searchkeyword.model.SearchKeyword
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 
 interface PostService {
     fun getPostById(postId:Long): PostResponse
@@ -17,5 +19,6 @@ interface PostService {
     fun getPostByPage (pageNumber: Int, pageSize: Int): Page<PostResponse>
     fun getPostByTitleOrContent (keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse>
     fun getTopSearchKeywords(): List<SearchKeyword>
+    fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse>
 
 }
