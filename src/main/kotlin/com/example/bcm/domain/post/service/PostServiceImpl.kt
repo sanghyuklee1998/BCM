@@ -95,6 +95,20 @@ class PostServiceImpl(
         return post.map { it.toResponse() }
     }
 
+    override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
+        val post = postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
+        val searchKeyword = searchKeywordRepository.findByKeyword(keyword)
+        if (searchKeyword == null) {
+            val newKeyword = SearchKeyword(keyword = keyword, searchCount = 1)
+            searchKeywordRepository.save(newKeyword)
+        } else {
+            searchKeyword.searchCount++
+            searchKeywordRepository.save(searchKeyword)
+        }
+        return post.map { it.toResponse() }
+    }
+
+
     override fun getPostByPage(pageNumber: Int, pageSize: Int): Page<PostResponse> {
         val page = postRepository.findAllByOrderByCreatedAtDesc(PageRequest.of(pageNumber, pageSize))
         return page.map { it.toResponse() }
