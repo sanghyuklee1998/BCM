@@ -5,7 +5,7 @@ import com.example.bcm.domain.comment.dto.CreateCommentRequest
 import com.example.bcm.domain.comment.dto.UpdateCommentRequest
 import com.example.bcm.domain.comment.model.Comment
 import com.example.bcm.domain.comment.repository.CommentRepository
-import com.example.bcm.domain.exception.ModelNotFoundException
+import com.example.bcm.domain.global.exception.ModelNotFoundException
 import com.example.bcm.domain.post.repository.PostRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

@@ -1,6 +1,6 @@
 package com.example.bcm.domain.post.service
 
-import com.example.bcm.domain.exception.ModelNotFoundException
+import com.example.bcm.domain.global.exception.ModelNotFoundException
 import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest

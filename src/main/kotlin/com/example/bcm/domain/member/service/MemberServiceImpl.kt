@@ -1,6 +1,6 @@
 package com.example.bcm.domain.member.service
 
-import com.example.bcm.domain.exception.ModelNotFoundException
+import com.example.bcm.domain.global.exception.ModelNotFoundException
 import com.example.bcm.domain.member.dto.CreateMemberRequest
 import com.example.bcm.domain.member.dto.MemberResponse
 import com.example.bcm.domain.member.dto.UpdateMemberRequest
