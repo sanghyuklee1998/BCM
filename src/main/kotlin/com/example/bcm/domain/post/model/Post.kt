@@ -13,14 +13,11 @@ class Post(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long? = null,
 
-        @Column(name = "title", nullable = false) var title: String,
+        @Column(name = "title", nullable = false)
+        var title: String,
 
-        @Column(name = "content", nullable = false) var content: String,
-
-        // Member 연결
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name="member_id", nullable = false)
-//    var member: Member,
+        @Column(name = "content", nullable = false)
+        var content: String,
 
         @Column
         @CreatedDate
