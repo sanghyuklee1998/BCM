@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestControllerAdvice
 class GlobalExceptionHandler {
     @ExceptionHandler(ModelNotFoundException::class)
-    fun handleModelNotFoundException(e: ModelNotFoundException): ResponseEntity<com.example.bcm.domain.global.exception.ErrorResponse>{
+    fun handleModelNotFoundException(e: ModelNotFoundException): ResponseEntity<ErrorResponse>{
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(e.message))
     }
 }
