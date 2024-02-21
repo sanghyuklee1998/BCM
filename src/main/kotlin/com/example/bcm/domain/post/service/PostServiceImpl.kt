@@ -1,6 +1,6 @@
 package com.example.bcm.domain.post.service
 
-import com.example.bcm.domain.exception.ModelNotFoundException
+import com.example.bcm.domain.global.exception.ModelNotFoundException
 import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
@@ -9,10 +9,8 @@ import com.example.bcm.domain.post.model.toResponse
 import com.example.bcm.domain.post.repository.PostRepository
 import com.example.bcm.domain.searchkeyword.model.SearchKeyword
 import com.example.bcm.domain.searchkeyword.repository.SearchKeywordRepository
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Sort
+import org.springframework.cache.annotation.Cacheable
+import org.springframework.data.domain.*
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -103,7 +101,6 @@ class PostServiceImpl(
         return post.map { it.toResponse() }
     }
 
-
     override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
         val post = postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
         if (!post.isEmpty) { // 게시글이 존재하는 경우에만 검색어 저장 로직 실행
@@ -131,7 +128,12 @@ class PostServiceImpl(
         return searchKeywordRepository.findAll(pageable).content
     }
 
-
-
-
+    @Cacheable("postByTitleORContent")
+    override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
+        return postRepository.findByTitleContainsOrContentContains(
+            keyword,
+            keyword,
+            PageRequest.of(pageNumber, pageSize)
+        ).map { it.toResponse() }
+    }
 }
