@@ -48,11 +48,12 @@ class PostController(
     }
 
     @DeleteMapping("/{postId}")
-    fun deletePost(@PathVariable postId: Long): ResponseEntity<Unit> {
+    fun deletePost(@PathVariable postId: Long): ResponseEntity<String> {
         postService.deletePost(postId)
+        val deletePostSuccessMessage = "게시글이 성공적으로 삭제되었습니다."
         return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build()
+                .status(HttpStatus.OK)
+                .body(deletePostSuccessMessage)
     }
 
     @GetMapping("/search/title")

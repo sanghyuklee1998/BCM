@@ -16,7 +16,7 @@ data class Comment (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(name = "contnent")
+    @Column(name = "content")
     var content: String,
 
     @Column(name = "nickname")
