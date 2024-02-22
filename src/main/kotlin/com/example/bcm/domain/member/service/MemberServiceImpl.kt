@@ -36,11 +36,6 @@ class MemberServiceImpl(
         return MemberResponse.from(memberRepository.save(saveMember))
     }
 
-//    override fun updateMember(id: Long,updateMemberRequest: UpdateMemberRequest): MemberResponse {
-//        val saveMember = memberRepository.save(updateMemberRequest.to())
-//
-//        return MemberResponse.from(saveMember)
-//    }
 
     override fun deleteMember(id: Long) {
         memberRepository.deleteById(id)

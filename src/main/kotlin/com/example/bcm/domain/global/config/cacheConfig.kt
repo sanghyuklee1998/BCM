@@ -13,10 +13,4 @@ class CachingConfig {
     fun cacheManager(): CacheManager {
         return ConcurrentMapCacheManager()
     }
-
-
-    // spring-starter-cache 사용 시, 기본으로 등록되는 캐시매니저 = ConcurrentMapCacheManager
-    // 또 유명한건, EhCacheManager, CaffeineCacheManager
-    // CaffeineCacheManager -> 벤치마킹 성능이 가장 좋다. 삭제에도 개빠른 속도를 보여서 용이함
-
 }
