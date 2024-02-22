@@ -2,7 +2,6 @@ package com.example.bcm.domain.comment.dto
 
 import com.example.bcm.domain.comment.model.Comment
 import java.time.LocalDateTime
-import java.time.ZonedDateTime
 
 class CommentResponse (
     var id: Long?,
