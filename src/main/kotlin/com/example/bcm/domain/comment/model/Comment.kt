@@ -1,13 +1,9 @@
 package com.example.bcm.domain.comment.model
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
+import com.example.bcm.domain.post.model.Post
+import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
-import java.time.ZonedDateTime
 
 
 @Entity
@@ -21,6 +17,10 @@ data class Comment (
 
     @Column(name = "nickname")
     var nickname: String,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    var post: Post,
 
     @Column(name = "createdAt")
     @CreatedDate
