@@ -17,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class PostServiceImpl(
-        private val postRepository: PostRepository,
-        private val searchKeywordRepository: SearchKeywordRepository
+    private val postRepository: PostRepository,
+    private val searchKeywordRepository: SearchKeywordRepository
 ) : PostService {
 
     override fun getAllPostList(): List<PostResponse> {
@@ -40,10 +40,10 @@ class PostServiceImpl(
     @Transactional
     override fun createPost(request: CreatePostRequest): PostResponse {
         return postRepository.save(
-                Post(
-                        title = request.title,
-                        content = request.content
-                )
+            Post(
+                title = request.title,
+                content = request.content
+            )
         ).toResponse()
     }
 
@@ -102,7 +102,8 @@ class PostServiceImpl(
     }
 
     override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
-        val post = postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
+        val post =
+            postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
         if (!post.isEmpty) { // 게시글이 존재하는 경우에만 검색어 저장 로직 실행
             val searchKeyword = searchKeywordRepository.findByKeyword(keyword)
             if (searchKeyword == null) {
@@ -124,11 +125,20 @@ class PostServiceImpl(
 
     @Transactional(readOnly = true)
     override fun getTopSearchKeywords(): List<SearchKeyword> {
-        val pageable: Pageable = PageRequest.of(0,3, Sort.by(Sort.Direction.DESC, "searchCount"))
+        val pageable: Pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "searchCount"))
         return searchKeywordRepository.findAll(pageable).content
     }
 
-    @Cacheable("postByTitleORContent")
+    // 캐시에 값이 있는가?
+        // 1. Cacheable에서 캐시에 있는 값을 리턴해준다.
+        // 2. 메소드 바디는 실행하지 않는다.
+    // 캐시에 값이 없는가?
+        // 1. Cacheable에서 캐시에 값이 없으니까 메소드 바디를 호출해서 값을 떼온다.
+
+    // AOP 방식이기 때문 + AOP > Reflection
+    // cache의 Key는 keyword + pageNumber + pageSize
+    // value = CacheNames의 Alias, CacheNames = value의 Alias ==> CacheNames, value는 캐시의 이름을 말한다.
+    @Cacheable(value = ["postByTitleORContent"], key = "''")
     override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
         return postRepository.findByTitleContainsOrContentContains(
             keyword,
@@ -136,4 +146,6 @@ class PostServiceImpl(
             PageRequest.of(pageNumber, pageSize)
         ).map { it.toResponse() }
     }
+
+    // 스케줄링을 적용하거나, 나처럼 C, U, D 상황이 나왔을 때 캐시를 삭제하게끔 하거나
 }
