@@ -106,7 +106,7 @@ class PostServiceImpl(
     override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
         val post =
             postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
-        if (!post.isEmpty) { // 게시글이 존재하는 경우에만 검색어 저장 로직 실행
+        if (!post.isEmpty) {
             val searchKeyword = searchKeywordRepository.findByKeyword(keyword)
             if (searchKeyword == null) {
                 val newKeyword = SearchKeyword(keyword = keyword, searchCount = 1)
@@ -115,6 +115,7 @@ class PostServiceImpl(
                 searchKeyword.searchCount++
                 searchKeywordRepository.save(searchKeyword)
             }
+
         }
         return post.map { it.toResponse() }
     }
@@ -123,7 +124,7 @@ class PostServiceImpl(
     override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
         val post =
             postRepositoryV2.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
-        if (!post.isEmpty) { // 게시글이 존재하는 경우에만 검색어 저장 로직 실행
+        if (!post.isEmpty) {
             val searchKeyword = searchKeywordRepository.findByKeyword(keyword)
             if (searchKeyword == null) {
                 val newKeyword = SearchKeyword(keyword = keyword, searchCount = 1)
