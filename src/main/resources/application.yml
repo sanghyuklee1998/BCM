@@ -9,5 +9,5 @@ spring:
     format_sql: true
     highlight_sql: true
     use_sql_comments: true
-    ddl-auto: create
+    ddl-auto: none
     show-sql: true
