@@ -28,7 +28,6 @@ class CommentServiceImpl(
 
         val comment = Comment(
                 content = createCommentRequest.content,
-                nickname = "닉네임",
                 post = targetPost,
                 createdAt = LocalDateTime.now(),
         )

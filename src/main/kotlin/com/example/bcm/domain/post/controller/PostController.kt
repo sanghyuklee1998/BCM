@@ -56,27 +56,27 @@ class PostController(
                 .body(deletePostSuccessMessage)
     }
 
-    @GetMapping("/search/title")
-    fun getPostByTitle(
-            @RequestParam keyword: String,
-            @RequestParam(defaultValue = "1") pageNumber: Int,
-            @RequestParam(defaultValue = "10") pageSize: Int
-    ): ResponseEntity<Page<PostResponse>> {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(postService.getPostByTitle(keyword, pageNumber -1, pageSize))
-    }
-
-    @GetMapping("/search/content")
-    fun getPostByContent(
-            @RequestParam keyword: String,
-            @RequestParam(defaultValue = "1") pageNumber: Int,
-            @RequestParam(defaultValue = "10") pageSize: Int
-    ): ResponseEntity<Page<PostResponse>> {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(postService.getPostByContent(keyword, pageNumber -1, pageSize))
-    }
+//    @GetMapping("/search/title")
+//    fun getPostByTitle(
+//            @RequestParam keyword: String,
+//            @RequestParam(defaultValue = "1") pageNumber: Int,
+//            @RequestParam(defaultValue = "10") pageSize: Int
+//    ): ResponseEntity<Page<PostResponse>> {
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(postService.getPostByTitle(keyword, pageNumber -1, pageSize))
+//    }
+//
+//    @GetMapping("/search/content")
+//    fun getPostByContent(
+//            @RequestParam keyword: String,
+//            @RequestParam(defaultValue = "1") pageNumber: Int,
+//            @RequestParam(defaultValue = "10") pageSize: Int
+//    ): ResponseEntity<Page<PostResponse>> {
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(postService.getPostByContent(keyword, pageNumber -1, pageSize))
+//    }
 
     @GetMapping("/search")
     fun getPostByTitleOrContent(
