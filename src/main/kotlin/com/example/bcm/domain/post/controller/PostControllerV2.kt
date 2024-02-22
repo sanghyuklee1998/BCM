@@ -26,3 +26,4 @@ class PostControllerV2(
             .body(postService.getPostSearchWithCaching(keyword, pageNumber -1, pageSize))
     }
 }
+
