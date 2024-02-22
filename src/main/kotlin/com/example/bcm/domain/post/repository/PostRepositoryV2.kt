@@ -5,15 +5,14 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
 
-@Repository
+
+
 interface PostRepositoryV2: JpaRepository<Post, Long> {
 //    fun findByTitleLike(title: String, pageable: Pageable): Page<Post>
 //    fun findByContentLike(content: String, pageable: Pageable): Page<Post>
 
-    @Cacheable(value = ["postByTitleORContent"], key = "''")
+    @Cacheable(value = ["postByTitleORContent"])
     fun findByTitleContainsOrContentContains(title: String, content: String, pageable:Pageable): Page<Post>
-    fun findAllByOrderByCreatedAtDesc(pageable: Pageable): Page<Post>
 
 }
