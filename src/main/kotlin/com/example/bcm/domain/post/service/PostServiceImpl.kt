@@ -1,19 +1,20 @@
 package com.example.bcm.domain.post.service
 
 import com.example.bcm.domain.global.exception.ModelNotFoundException
-import com.example.bcm.domain.global.timer.LoggingStopWatch
 import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
 import com.example.bcm.domain.post.model.Post
 import com.example.bcm.domain.post.model.toResponse
 import com.example.bcm.domain.post.repository.PostRepository
-import com.example.bcm.domain.post.repository.PostRepositoryV2
 import com.example.bcm.domain.searchkeyword.model.SearchKeyword
 import com.example.bcm.domain.searchkeyword.repository.SearchKeywordRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.data.domain.*
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -21,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class PostServiceImpl(
     private val postRepository: PostRepository,
-    private val postRepositoryV2: PostRepositoryV2,
     private val searchKeywordRepository: SearchKeywordRepository
 ) : PostService {
 
@@ -110,9 +110,7 @@ class PostServiceImpl(
 //        return post.map { it.toResponse() }
 //    }
 
-
-    override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int
-    ): Page<PostResponse> {
+    override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
         val post =
             postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
         if (!post.isEmpty) {
@@ -130,12 +128,10 @@ class PostServiceImpl(
     }
 
 
-
     @Cacheable(value = ["postByTitleORContent"])
-    override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int
-    ): Page<PostResponse> {
+    override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
         val post =
-            postRepositoryV2.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
+            postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
         if (!post.isEmpty) {
             val searchKeyword = searchKeywordRepository.findByKeyword(keyword)
             if (searchKeyword == null) {
@@ -149,17 +145,6 @@ class PostServiceImpl(
         return post.map { it.toResponse() }
 
     }
-
-
-//    @Cacheable("postByTitleORContent")
-//    override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int
-//    ): Page<PostResponse> {
-//        return postRepository.findByTitleContainsOrContentContains(
-//            keyword,
-//            keyword,
-//            PageRequest.of(pageNumber, pageSize)
-//        ).map { it.toResponse() }
-//    }
 
 
 
