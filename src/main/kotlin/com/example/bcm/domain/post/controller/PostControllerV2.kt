@@ -1,5 +1,6 @@
 package com.example.bcm.domain.post.controller
 
+import com.example.bcm.domain.global.timer.LoggingStopWatch
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.service.PostService
 import org.springframework.data.domain.Page
@@ -16,6 +17,7 @@ class PostControllerV2(
     private val postService: PostService
 ) {
     @GetMapping("/search")
+    @LoggingStopWatch
     fun getPostByTitleOrContent(
         @RequestParam keyword: String,
         @RequestParam(defaultValue = "1") pageNumber: Int,

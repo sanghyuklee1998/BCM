@@ -1,6 +1,7 @@
 package com.example.bcm.domain.post.service
 
 import com.example.bcm.domain.global.exception.ModelNotFoundException
+import com.example.bcm.domain.global.timer.LoggingStopWatch
 import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
@@ -10,6 +11,7 @@ import com.example.bcm.domain.post.repository.PostRepository
 import com.example.bcm.domain.post.repository.PostRepositoryV2
 import com.example.bcm.domain.searchkeyword.model.SearchKeyword
 import com.example.bcm.domain.searchkeyword.repository.SearchKeywordRepository
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.*
 import org.springframework.data.repository.findByIdOrNull
@@ -40,6 +42,7 @@ class PostServiceImpl(
     }
 
     @Transactional
+    @CacheEvict(value = ["postByTitleORContent"], allEntries = true)
     override fun createPost(request: CreatePostRequest): PostResponse {
         return postRepository.save(
             Post(
@@ -49,7 +52,10 @@ class PostServiceImpl(
         ).toResponse()
     }
 
+
+
     @Transactional
+    @CacheEvict(value = ["postByTitleORContent"], allEntries = true)
     override fun updatePost(postId: Long, request: UpdatePostRequest): PostResponse {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         post.title = request.title
@@ -58,6 +64,7 @@ class PostServiceImpl(
     }
 
     @Transactional
+    @CacheEvict(value = ["postByTitleORContent"], allEntries = true)
     override fun deletePost(postId: Long) {
         val post = postRepository.findByIdOrNull(postId) ?: throw ModelNotFoundException("Post", postId)
         postRepository.delete(post)
@@ -103,7 +110,9 @@ class PostServiceImpl(
 //        return post.map { it.toResponse() }
 //    }
 
-    override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
+
+    override fun getPostByTitleOrContent(keyword: String, pageNumber: Int, pageSize: Int
+    ): Page<PostResponse> {
         val post =
             postRepository.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
         if (!post.isEmpty) {
@@ -121,7 +130,10 @@ class PostServiceImpl(
     }
 
 
-    override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int): Page<PostResponse> {
+
+    @Cacheable(value = ["postByTitleORContent"])
+    override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int
+    ): Page<PostResponse> {
         val post =
             postRepositoryV2.findByTitleContainsOrContentContains(keyword, keyword, PageRequest.of(pageNumber, pageSize))
         if (!post.isEmpty) {
@@ -137,6 +149,17 @@ class PostServiceImpl(
         return post.map { it.toResponse() }
 
     }
+
+
+//    @Cacheable("postByTitleORContent")
+//    override fun getPostSearchWithCaching(keyword: String, pageNumber: Int, pageSize: Int
+//    ): Page<PostResponse> {
+//        return postRepository.findByTitleContainsOrContentContains(
+//            keyword,
+//            keyword,
+//            PageRequest.of(pageNumber, pageSize)
+//        ).map { it.toResponse() }
+//    }
 
 
 
