@@ -12,7 +12,6 @@ interface PostRepositoryV2: JpaRepository<Post, Long> {
 //    fun findByTitleLike(title: String, pageable: Pageable): Page<Post>
 //    fun findByContentLike(content: String, pageable: Pageable): Page<Post>
 
-    @Cacheable(value = ["postByTitleORContent"])
     fun findByTitleContainsOrContentContains(title: String, content: String, pageable:Pageable): Page<Post>
 
 }

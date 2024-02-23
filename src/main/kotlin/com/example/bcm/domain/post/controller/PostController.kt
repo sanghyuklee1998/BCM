@@ -1,5 +1,6 @@
 package com.example.bcm.domain.post.controller
 
+import com.example.bcm.domain.global.timer.LoggingStopWatch
 import com.example.bcm.domain.post.dto.CreatePostRequest
 import com.example.bcm.domain.post.dto.PostResponse
 import com.example.bcm.domain.post.dto.UpdatePostRequest
@@ -78,12 +79,15 @@ class PostController(
 //                .body(postService.getPostByContent(keyword, pageNumber -1, pageSize))
 //    }
 
+
     @GetMapping("/search")
+    @LoggingStopWatch
     fun getPostByTitleOrContent(
         @RequestParam keyword: String,
         @RequestParam(defaultValue = "1") pageNumber: Int,
         @RequestParam(defaultValue = "10") pageSize: Int
     ): ResponseEntity<Page<PostResponse>> {
+        postService.getPostByTitleOrContent(keyword, pageNumber , pageSize)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(postService.getPostByTitleOrContent(keyword, pageNumber -1, pageSize))
